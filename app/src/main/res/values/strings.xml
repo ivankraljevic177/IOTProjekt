@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">IOTProjekt</string>
+    <string name="locationLabel">Initialized</string>
+    <string name="locationTitle">Coordinates:</string>
 </resources>
