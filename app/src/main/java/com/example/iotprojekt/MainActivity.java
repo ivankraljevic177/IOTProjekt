@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationListener locationListener;
     private LocationManager locationManager;
+    private static boolean resume = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (SecurityException e) {
             Toast.makeText(this, "Greška u dozvolama", Toast.LENGTH_SHORT).show();
         }
+        resume = true;
     }
     public void checkAndRequestPermissions() {
         if(ContextCompat.checkSelfPermission(this, LOCATION_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{LOCATION_PERMISSION}, PERMISSIONS_REQUEST_CODE);
         }
+
     }
 
     @Override
@@ -98,6 +101,16 @@ public class MainActivity extends AppCompatActivity {
             locationManager.removeUpdates(locationListener);
             locationManager = null;
             locationListener = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (resume) {
+            resume = false;
+            String[] a = {};
+            LeshanClientDemo.init(a);
         }
     }
 }
