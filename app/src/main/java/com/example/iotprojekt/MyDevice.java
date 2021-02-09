@@ -1,5 +1,7 @@
 package com.example.iotprojekt;
 
+import android.util.Log;
+
 import org.eclipse.leshan.client.request.ServerIdentity;
 import org.eclipse.leshan.client.resource.BaseInstanceEnabler;
 import org.eclipse.leshan.core.model.ObjectModel;
@@ -8,8 +10,6 @@ import org.eclipse.leshan.core.node.LwM2mResource;
 import org.eclipse.leshan.core.response.ExecuteResponse;
 import org.eclipse.leshan.core.response.ReadResponse;
 import org.eclipse.leshan.core.response.WriteResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -27,7 +27,6 @@ import java.util.TimerTask;
 
 public class MyDevice extends BaseInstanceEnabler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MyDevice.class);
 
     private static final Random RANDOM = new Random();
     private static final List<Integer> supportedResources = Arrays.asList(0, 1, 2, 3, 9, 10, 11, 13, 14, 15, 16, 17, 18,
@@ -46,7 +45,7 @@ public class MyDevice extends BaseInstanceEnabler {
 
     @Override
     public ReadResponse read(ServerIdentity identity, int resourceid) {
-        LOG.info("Read on Device Resource " + resourceid);
+        Log.i("Log:", "Read on Device Resource " + resourceid);
         switch (resourceid) {
         case 0:
             return ReadResponse.success(resourceid, getManufacturer());
@@ -89,7 +88,7 @@ public class MyDevice extends BaseInstanceEnabler {
 
     @Override
     public ExecuteResponse execute(ServerIdentity identity, int resourceid, String params) {
-        LOG.info("Execute on Device resource " + resourceid);
+        Log.i("Log:","Execute on Device resource " + resourceid);
         if (params != null && params.length() != 0)
             System.out.println("\t params " + params);
         return ExecuteResponse.success();
@@ -97,7 +96,7 @@ public class MyDevice extends BaseInstanceEnabler {
 
     @Override
     public WriteResponse write(ServerIdentity identity, int resourceid, LwM2mResource value) {
-        LOG.info("Write on Device Resource " + resourceid + " value " + value);
+        Log.i("Log:", "Write on Device Resource " + resourceid + " value " + value);
         switch (resourceid) {
         case 13:
             return WriteResponse.notFound();

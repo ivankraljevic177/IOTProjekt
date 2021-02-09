@@ -27,15 +27,13 @@ import org.eclipse.leshan.client.object.Server;
 import org.eclipse.leshan.client.resource.LwM2mObjectEnabler;
 import org.eclipse.leshan.client.resource.ObjectsInitializer;
 import org.eclipse.leshan.core.request.BindingMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.List;
-import java.util.Scanner;
 
 import static org.eclipse.leshan.LwM2mId.DEVICE;
 import static org.eclipse.leshan.LwM2mId.LOCATION;
@@ -44,14 +42,6 @@ import static org.eclipse.leshan.LwM2mId.SERVER;
 import static org.eclipse.leshan.client.object.Security.noSec;
 
 public class LeshanClientDemo {
-
-    private static final Logger LOG = LoggerFactory.getLogger(LeshanClientDemo.class);
-
-    private final static String[] modelPaths = new String[] { "3303.xml" };
-
-    private static final int OBJECT_ID_TEMPERATURE_SENSOR = 3303;
-    private final static String DEFAULT_ENDPOINT = "LeshanClientDemo";
-    private final static String USAGE = "java -jar leshan-client-demo.jar [OPTION]\n\n";
 
     private static MyLocation locationInstance;
 
@@ -148,13 +138,6 @@ public class LeshanClientDemo {
         // Start the client
         client.start();
 
-        // Change the location through the Console
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (scanner.hasNext()) {
-                String nextMove = scanner.next();
-                locationInstance.moveLocation(nextMove);
-            }
-        }
 
     }
 }
