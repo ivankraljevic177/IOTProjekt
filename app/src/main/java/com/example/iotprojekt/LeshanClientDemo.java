@@ -18,6 +18,7 @@
 
 package com.example.iotprojekt;
 
+import android.net.Uri;
 import android.os.Build;
 
 import org.eclipse.leshan.LwM2m;
@@ -26,9 +27,13 @@ import org.eclipse.leshan.client.californium.LeshanClientBuilder;
 import org.eclipse.leshan.client.object.Server;
 import org.eclipse.leshan.client.resource.LwM2mObjectEnabler;
 import org.eclipse.leshan.client.resource.ObjectsInitializer;
+import org.eclipse.leshan.core.model.LwM2mModel;
+import org.eclipse.leshan.core.model.ObjectLoader;
+import org.eclipse.leshan.core.model.ObjectModel;
 import org.eclipse.leshan.core.request.BindingMode;
 
 
+import java.io.File;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateEncodingException;
@@ -105,14 +110,22 @@ public class LeshanClientDemo {
         List<ObjectModel> models = ObjectLoader.loadDefault();
         models.addAll(ObjectLoader.loadDdfResources("/models", modelPaths));
         */
+        List<ObjectModel> models = ObjectLoader.loadDefault();
+        String[] modelPaths = new String[] { "3300.xml"};
+        Uri path = Uri.fromFile(new File("assets/models"));
+        models.addAll(ObjectLoader.loadDdfResources(path.getPath(), modelPaths));
+
         // Initialize object list
         //ObjectsInitializer initializer = new ObjectsInitializer(new LwM2mModel(models));
-        ObjectsInitializer initializer = new ObjectsInitializer();
+        ObjectsInitializer initializer = new ObjectsInitializer(new LwM2mModel(models));
+
         initializer.setInstancesForObject(SECURITY, noSec(serverURI, 123));
         initializer.setInstancesForObject(SERVER, new Server(123, 30, BindingMode.U, false));
 
         initializer.setInstancesForObject(DEVICE, new MyDevice());
         initializer.setInstancesForObject(LOCATION, locationInstance);
+
+        initializer.setInstancesForObject(3300, new MySensor());
         //initializer.setInstancesForObject(OBJECT_ID_TEMPERATURE_SENSOR, new RandomTemperatureSensor());
         List<LwM2mObjectEnabler> enablers = initializer.createAll();
 
