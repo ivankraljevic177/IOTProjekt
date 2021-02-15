@@ -38,7 +38,7 @@ public class MySensor extends BaseInstanceEnabler {
         Log.i("Log:", "Write on Device Resource " + resourceid + " value " + value);
         switch (resourceid) {
             case 5750:
-                setApplicationType((String) value.getValue());
+                setApplicationType(Float.parseFloat((String) value.getValue()));
                 fireResourcesChange(resourceid);
                 return WriteResponse.success();
             default:
@@ -46,18 +46,19 @@ public class MySensor extends BaseInstanceEnabler {
         }
     }
 
-    private String getSensorValue() {
-        return "Leshan Demo Sensor";
+    private float getSensorValue() {
+        return 3.0f;
     }
 
-    private String applicationType = "Empty application type";
+    private float applicationType = 2.0f;
 
-    private String getApplicationType() {
+    public float getApplicationType() {
         return applicationType;
     }
 
-    private void setApplicationType(String t) {
+    private void setApplicationType(Float t) {
         applicationType = t;
+        Log.i("log:", "app:"+ applicationType);
     }
 
     @Override

@@ -12,6 +12,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private final String LOCATION_PERMISSION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private final int PERMISSIONS_REQUEST_CODE = 1240;
     private TextView locationLabel;
+    private TextView dataFromServer;
 
     private LocationListener locationListener;
     private LocationManager locationManager;
@@ -32,9 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkAndRequestPermissions();
-
+        updateTextView();
         locationLabel = findViewById(R.id.locationLabel);
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -112,5 +114,31 @@ public class MainActivity extends AppCompatActivity {
             String[] a = {};
             LeshanClientDemo.init(a);
         }
+    }
+
+    public void updateTextView(){
+        final Handler handler = new Handler();
+        MySensor sensor = new MySensor();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                dataFromServer = findViewById(R.id.dataFromServer);
+
+
+
+                float data = sensor.getApplicationType();
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(String.format("Data From Server: %.6f °",data)).append("\n\n");
+
+                dataFromServer.setText(sb.toString());
+                Log.i("Log:","seconds:" +data);
+
+
+                handler.postDelayed(this,1000);
+            }
+        });
     }
 }
