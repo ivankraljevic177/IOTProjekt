@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             locationManager = null;
             locationListener = null;
         }
+
     }
 
     @Override
@@ -118,20 +119,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateTextView(){
         final Handler handler = new Handler();
-        MySensor sensor = new MySensor();
         handler.post(new Runnable() {
             @Override
             public void run() {
 
                 dataFromServer = findViewById(R.id.dataFromServer);
-
-
-
-                float data = sensor.getApplicationType();
+                float data = LeshanClientDemo.getApplicationType();
 
                 StringBuilder sb = new StringBuilder();
 
-                sb.append(String.format("Data From Server: %.6f °",data)).append("\n\n");
+                sb.append(String.format("Data From Server: %.6f ",data)).append("\n\n");
 
                 dataFromServer.setText(sb.toString());
                 Log.i("Log:","seconds:" +data);

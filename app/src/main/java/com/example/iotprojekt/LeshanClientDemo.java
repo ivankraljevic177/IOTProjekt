@@ -49,7 +49,7 @@ import static org.eclipse.leshan.client.object.Security.noSec;
 public class LeshanClientDemo {
 
     private static MyLocation locationInstance;
-
+    private static MySensor sensorInstance;
 
 
     public static void init(final String[] args) {
@@ -98,13 +98,16 @@ public class LeshanClientDemo {
         locationInstance.moveLongitude(lon);
     }
 
+    public static float getApplicationType(){
+        return sensorInstance.getApplicationType();
+    }
     public static void createAndStartClient(String endpoint, String localAddress, int localPort, boolean needBootstrap,
                                             String serverURI, byte[] pskIdentity, byte[] pskKey, PrivateKey clientPrivateKey, PublicKey clientPublicKey,
                                             PublicKey serverPublicKey, X509Certificate clientCertificate, X509Certificate serverCertificate,
                                             Float latitude, Float longitude, float scaleFactor) throws CertificateEncodingException {
 
         locationInstance = new MyLocation(latitude, longitude, scaleFactor);
-
+        sensorInstance = new MySensor();
         // Initialize model
         /*
         List<ObjectModel> models = ObjectLoader.loadDefault();
@@ -125,7 +128,7 @@ public class LeshanClientDemo {
         initializer.setInstancesForObject(DEVICE, new MyDevice());
         initializer.setInstancesForObject(LOCATION, locationInstance);
 
-        initializer.setInstancesForObject(3300, new MySensor());
+        initializer.setInstancesForObject(3300, sensorInstance);
         //initializer.setInstancesForObject(OBJECT_ID_TEMPERATURE_SENSOR, new RandomTemperatureSensor());
         List<LwM2mObjectEnabler> enablers = initializer.createAll();
 
