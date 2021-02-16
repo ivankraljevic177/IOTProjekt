@@ -38,7 +38,7 @@ public class MySensor extends BaseInstanceEnabler {
         Log.i("Log:", "Write on Device Resource " + resourceid + " value " + value);
         switch (resourceid) {
             case 5750:
-                setApplicationType(Float.parseFloat((String) value.getValue()));
+                setApplicationType((String) value.getValue());
                 fireResourcesChange(resourceid);
                 return WriteResponse.success();
             default:
@@ -50,15 +50,14 @@ public class MySensor extends BaseInstanceEnabler {
         return 3.0f;
     }
 
-    private float applicationType = 2.0f;
+    private String applicationType = "ApplicationType";
 
-    public float getApplicationType() {
+    public String getApplicationType() {
         return applicationType;
     }
 
-    private void setApplicationType(Float t) {
+    private void setApplicationType(String t) {
         applicationType = t;
-        Log.i("log:", "app:"+ applicationType);
     }
 
     @Override

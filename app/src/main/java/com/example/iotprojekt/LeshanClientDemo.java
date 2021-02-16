@@ -59,7 +59,7 @@ public class LeshanClientDemo {
 
         // Get server URI
         String serverURI;
-        serverURI = "coap://192.168.2.154:" + LwM2m.DEFAULT_COAP_PORT;
+        serverURI = "coap://192.168.1.10:" + LwM2m.DEFAULT_COAP_PORT;
         System.err.println(serverURI);
         // get PSK info
         byte[] pskIdentity = null;
@@ -98,7 +98,7 @@ public class LeshanClientDemo {
         locationInstance.moveLongitude(lon);
     }
 
-    public static float getApplicationType(){
+    public static String getApplicationType(){
         return sensorInstance.getApplicationType();
     }
     public static void createAndStartClient(String endpoint, String localAddress, int localPort, boolean needBootstrap,

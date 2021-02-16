@@ -124,14 +124,9 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 dataFromServer = findViewById(R.id.dataFromServer);
-                float data = LeshanClientDemo.getApplicationType();
+                String data = LeshanClientDemo.getApplicationType();
 
-                StringBuilder sb = new StringBuilder();
-
-                sb.append(String.format("Data From Server: %.6f ",data)).append("\n\n");
-
-                dataFromServer.setText(sb.toString());
-                Log.i("Log:","seconds:" +data);
+                dataFromServer.setText(data);
 
 
                 handler.postDelayed(this,1000);
