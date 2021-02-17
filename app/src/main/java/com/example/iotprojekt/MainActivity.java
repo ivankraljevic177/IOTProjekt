@@ -28,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
     private LocationListener locationListener;
     private LocationManager locationManager;
     private static boolean resume = false;
+    private String data = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         checkAndRequestPermissions();
         updateTextView();
@@ -76,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Greška u dozvolama", Toast.LENGTH_SHORT).show();
         }
         resume = true;
+        if(savedInstanceState !=null){
+            data = savedInstanceState.getString("ApplicationType");
+            resume = savedInstanceState.getBoolean("resume");
+        }
     }
     public void checkAndRequestPermissions() {
         if(ContextCompat.checkSelfPermission(this, LOCATION_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -117,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ApplicationType",data);
+        outState.putBoolean("resume", resume);
+    }
     public void updateTextView(){
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -124,11 +136,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 dataFromServer = findViewById(R.id.dataFromServer);
-                String data = LeshanClientDemo.getApplicationType();
-
+                data = LeshanClientDemo.getApplicationType();
                 dataFromServer.setText(data);
-
-
                 handler.postDelayed(this,1000);
             }
         });
